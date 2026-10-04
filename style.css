@@ -1,15 +1,97 @@
+:root {
+    --page-bg: #1c1c1e;       /* page background */
+    --calc-bg: #2c2c2e;       /* calculator body */
+    --display-bg: #000000;    /* display */
+    --btn-bg: #3a3a3c;        /* number buttons */
+    --btn-hover: #505053;
+    --text: #ffffff;
+    --text-muted: #8e8e93;    /* small top line in the display */
+    --operator: #ff9f0a;      /* orange operators */
+    --equals: #ff9f0a;
+    --action-bg: #a5a5a5;     /* C and ⌫ */
+    --action-text: #1c1c1e;
+}
+body.light {
+    --page-bg: #f2f2f7;
+    --calc-bg: #ffffff;
+    --display-bg: #e5e5ea;
+    --btn-bg: #d1d1d6;
+    --text: #1c1c1e;
+    --text-muted: #6e6e73;
+}
+body{
+    background-color: var(--page-bg);
+    color: var(--text);
+    font-family: system-ui, Geneva, Verdana, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
 header{
-    background-color: #f8f9fa;
-    padding: 20px;
     text-align: center;
 }
-main{
+.display {
+    background-color: var(--display-bg);
+    border-radius: 16px;
     padding: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    min-height: 90px;
 }
-button{
-    background-color: #007bff;
-    color: white;
+
+#calculator {
+    max-width: 320px;
+    margin: 0;
+    background-color: var(--calc-bg);
+    padding: 20px;
+    border-radius: 24px;
+    width: 100%;
+}
+button {
+    padding: 20px;
+    font-size: 1.3rem;
+    border-radius: 10px;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
+    transition: filter 0.2s, transform 0.1s;
+    background-color: var(--btn-bg);
+    color: var(--text);
+}
+button:hover {
+    filter: brightness(1.2);
+}
+button:active {
+    transform: scale(0.95);
+}
+[data-action="clear"],[data-number="0"] {
+    grid-column: span 2;
+}
+[data-operator]{
+    background-color: var(--operator);
+}
+[data-action="equals"]{
+    background-color: var(--equals);   
+}
+[data-action="clear"],[data-action="delete"]{
+    background-color: var(--action-bg);
+    color: var(--action-text);
+}
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+#current{
+    font-size: 2.8rem;
+    overflow-wrap:anywhere;
+}
+#previous{
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    min-height: 1.5rem;
 }
