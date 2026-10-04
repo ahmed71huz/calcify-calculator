@@ -24,11 +24,10 @@ body{
     color: var(--text);
     font-family: system-ui, Geneva, Verdana, sans-serif;
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 
 }
 header{
@@ -42,22 +41,30 @@ header{
     text-align: right;
     min-height: 90px;
 }
+main {
+    flex: 1;
+    display: flex;
+}
+body, #calculator, .display, button {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
 
 #calculator {
-    max-width: 320px;
     margin: 0;
     background-color: var(--calc-bg);
     padding: 20px;
-    border-radius: 24px;
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 button {
-    padding: 20px;
     font-size: 1.3rem;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    transition: filter 0.2s, transform 0.1s;
+    transition: background-color 0.4s ease, color 0.4s ease,
+    filter 0.2s ease, transform 0.15s ease-out;
     background-color: var(--btn-bg);
     color: var(--text);
 }
@@ -65,7 +72,7 @@ button:hover {
     filter: brightness(1.2);
 }
 button:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
 }
 [data-action="clear"],[data-number="0"] {
     grid-column: span 2;
@@ -81,12 +88,14 @@ button:active {
     color: var(--action-text);
 }
 .buttons {
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
 #current{
+    font-size: clamp(1.2rem, 4vw, 2.5rem);
     font-size: 2.8rem;
     overflow-wrap:anywhere;
 }
