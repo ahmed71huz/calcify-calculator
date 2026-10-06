@@ -1,5 +1,5 @@
 const theme = document.querySelector("#theme-toggle")
-
+const numberButtons = document.querySelectorAll("[data-number]");
 
 theme.addEventListener("click", () =>  {
     document.body.classList.toggle("light");
@@ -19,7 +19,9 @@ function updateDisplay(){
     previousEl.textContent = previous + " " + operator;
 }
 
-current = "5";
-previous = "12";
-operator = "+";
-updateDisplay();
+numberButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        current += button.dataset.number;                                   // يجيب اللي داخل البوكس مثل الbutton 
+        updateDisplay();
+    });
+});
