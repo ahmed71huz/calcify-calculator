@@ -20,20 +20,20 @@ let operator = ""
 const currentEl = document.querySelector("#current")
 const previousEl = document.querySelector("#previous")
 
-function calculate(){
-    if(previous ==="" ||current === ""){
+function calculate() {
+    if (previous === "" || current === "") {
         return;
     }
     const a = Number(previous)
     const b = Number(current)
     let result;
-    if (operator === "/" && b === 0){
+    if (operator === "/" && b === 0) {
         clearAll()
         currentEl.textContent = "Can't Divide By 0 "
         return;
 
     }
-    switch(operator){
+    switch (operator) {
         case "+":
             result = a + b
             break;
@@ -46,7 +46,7 @@ function calculate(){
         case "/":
             result = a / b
             break;
-    } 
+    }
     current = String(result)
     previous = ""
     operator = ""
@@ -55,12 +55,14 @@ function calculate(){
 function deleteNum() {
     current = current.slice(0, -1)
     updateDisplay()
-    
+
 }
 
 equalsBtn.addEventListener("click", calculate);
 clearBtn.addEventListener("click", clearAll);
 deleteBtn.addEventListener("click", deleteNum);
+decimalBtn.addEventListener("click", addDecimal);
+
 function clearAll() {
     previous = ""
     current = ""
@@ -71,7 +73,7 @@ function chooseOperator(op) {
     if (current === "") {
         return;
     }
-    if (previous !== ""){
+    if (previous !== "") {
         calculate();
     }
     operator = op
@@ -81,36 +83,68 @@ function chooseOperator(op) {
 }
 
 
+
+
 function updateDisplay() {
     currentEl.textContent = current || "0";
     previousEl.textContent = previous + " " + operator;
 }
+function appendNumber(num) {
+    current += num;
+    updateDisplay();
+}
 
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        current += button.dataset.number;                                   // يجيب اللي داخل البوكس مثل الbutton 
-        updateDisplay();
+        appendNumber(button.dataset.number);
     });
 });
+function addDecimal() {
+        if (current.includes(".")) {
+            return;
+
+        }
+        if (current === "") {
+            current = "0."
+        }
+        else {
+            current += "."
+
+        }
+        updateDisplay()
+
+}
+
+
 operatorBtn.forEach((button) => {
     button.addEventListener("click", () => {
         chooseOperator(button.dataset.operator);
     })
 })
-
-
-decimalBtn.addEventListener("click", () => {
-    if (current.includes(".")) {
-        return;
+document.addEventListener("keydown", (event) => {
+    if ("0123456789".includes(event.key)){
+        event.preventDefault(); 
+        appendNumber(event.key)
+    }
+    else if(event.key ==="."){
+        event.preventDefault(); 
+        addDecimal()
+    }
+    else if ("+-/*".includes(event.key)){
+        event.preventDefault(); 
+        chooseOperator(event.key)
+    }
+    else if (event.key ==="Enter" || event.key === "="){
+        event.preventDefault(); 
+        calculate();
+    }
+    else if (event.key === "Backspace"){
+        event.preventDefault(); 
+        deleteNum()
+    }
+    else if (event.key === "Escape"){
+        event.preventDefault(); 
+        clearAll()
 
     }
-    if (current === "") {
-        current = "0."
-    }
-    else {
-        current += "."
-
-    }
-    updateDisplay()
-
 });
