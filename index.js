@@ -27,6 +27,12 @@ function calculate(){
     const a = Number(previous)
     const b = Number(current)
     let result;
+    if (operator === "/" && b === 0){
+        clearAll()
+        currentEl.textContent = "Can't Divide By 0 "
+        return;
+
+    }
     switch(operator){
         case "+":
             result = a + b
@@ -64,6 +70,9 @@ function clearAll() {
 function chooseOperator(op) {
     if (current === "") {
         return;
+    }
+    if (previous !== ""){
+        calculate();
     }
     operator = op
     previous = current
