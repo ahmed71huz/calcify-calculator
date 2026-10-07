@@ -4,6 +4,7 @@ const decimalBtn = document.querySelector('[data-action="decimal"]');
 const clearBtn = document.querySelector('[data-action="clear"]');
 const deleteBtn = document.querySelector('[data-action="delete"]');
 const operatorBtn = document.querySelectorAll("[data-operator]");
+const equalsBtn = document.querySelector('[data-action="equals"]');
 
 
 
@@ -19,11 +20,39 @@ let operator = ""
 const currentEl = document.querySelector("#current")
 const previousEl = document.querySelector("#previous")
 
+function calculate(){
+    if(previous ==="" ||current === ""){
+        return;
+    }
+    const a = Number(previous)
+    const b = Number(current)
+    let result;
+    switch(operator){
+        case "+":
+            result = a + b
+            break;
+        case "-":
+            result = a - b
+            break;
+        case "*":
+            result = a * b
+            break;
+        case "/":
+            result = a / b
+            break;
+    } 
+    current = String(result)
+    previous = ""
+    operator = ""
+    updateDisplay()
+}
 function deleteNum() {
     current = current.slice(0, -1)
     updateDisplay()
-
+    
 }
+
+equalsBtn.addEventListener("click", calculate);
 clearBtn.addEventListener("click", clearAll);
 deleteBtn.addEventListener("click", deleteNum);
 function clearAll() {
