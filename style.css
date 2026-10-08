@@ -33,6 +33,42 @@ body{
 header{
     text-align: center;
 }
+
+/* Theme switch: the button is the track, ::after is the knob that slides */
+#theme {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px 0;
+}
+#theme-toggle {
+    position: relative;
+    width: 64px;
+    height: 34px;
+    padding: 0;
+    border-radius: 999px;
+    background-color: var(--btn-bg);
+}
+#theme-toggle::after {
+    content: "🌙";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--calc-bg);
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+body.light #theme-toggle::after {
+    content: "☀️";
+    transform: translateX(30px);
+}
+#theme-toggle:active {
+    transform: none;
+}
 .display {
     background-color: var(--display-bg);
     border-radius: 16px;
@@ -96,7 +132,6 @@ button:active {
 
 #current{
     font-size: clamp(1.2rem, 4vw, 2.5rem);
-    font-size: 2.8rem;
     overflow-wrap:anywhere;
 }
 #previous{

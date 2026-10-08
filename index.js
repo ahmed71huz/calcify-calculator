@@ -11,14 +11,19 @@ const equalsBtn = document.querySelector('[data-action="equals"]');
 
 theme.addEventListener("click", () => {
     document.body.classList.toggle("light");
-    theme.textContent = document.body.classList.contains("light") ? "🌙" : "☀️";
+    theme.setAttribute("aria-pressed", document.body.classList.contains("light"));
 });
 let current = ""
 let previous = ""
 let operator = ""
-
+let history = []
+let justCalculated = false   // true right after "=", so the next number starts fresh
+const historyEl = document.querySelector(".history")
 const currentEl = document.querySelector("#current")
 const previousEl = document.querySelector("#previous")
+
+
+
 
 function calculate() {
     if (previous === "" || current === "") {
@@ -29,9 +34,8 @@ function calculate() {
     let result;
     if (operator === "/" && b === 0) {
         clearAll()
-        currentEl.textContent = "Can't Divide By 0 "
+        currentEl.textContent = "Can't divide by 0"
         return;
-
     }
     switch (operator) {
         case "+":
@@ -47,9 +51,13 @@ function calculate() {
             result = a / b
             break;
     }
+    history.unshift(`${a} ${operator} ${b} = ${result}`);
+    history = history.slice(0, 5);
+    renderHistory();
     current = String(result)
     previous = ""
     operator = ""
+    justCalculated = true
     updateDisplay()
 }
 function deleteNum() {
@@ -67,6 +75,7 @@ function clearAll() {
     previous = ""
     current = ""
     operator = ""
+    justCalculated = false
     updateDisplay()
 }
 function chooseOperator(op) {
@@ -79,17 +88,29 @@ function chooseOperator(op) {
     operator = op
     previous = current
     current = ""
+    justCalculated = false
     updateDisplay()
 }
 
 
 
-
+function renderHistory(){
+    historyEl.innerHTML = ""
+    history.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        historyEl.appendChild(li);
+    });
+}
 function updateDisplay() {
     currentEl.textContent = current || "0";
     previousEl.textContent = previous + " " + operator;
 }
 function appendNumber(num) {
+    if (justCalculated) {
+        current = ""
+        justCalculated = false
+    }
     current += num;
     updateDisplay();
 }
@@ -100,6 +121,10 @@ numberButtons.forEach((button) => {
     });
 });
 function addDecimal() {
+        if (justCalculated) {
+            current = ""
+            justCalculated = false
+        }
         if (current.includes(".")) {
             return;
 
